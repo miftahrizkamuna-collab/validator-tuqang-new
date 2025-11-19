@@ -1,20 +1,14 @@
 import { GoogleGenAI } from "@google/genai";
 import { ShapeType, Dimensions } from "../types";
 
-const apiKey = process.env.API_KEY || '';
-// Initialize conditionally to avoid errors if key is missing during dev, 
-// though architecture requires it.
-const ai = apiKey ? new GoogleGenAI({ apiKey }) : null;
+// Initialize the client directly with process.env.API_KEY as per guidelines
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const getTuqangAdvice = async (
   shape: ShapeType,
   dimensions: Dimensions,
   isValid: boolean
 ): Promise<string> => {
-  if (!ai) {
-    return "API Key tidak ditemukan. Pastikan environment variable API_KEY sudah diset.";
-  }
-
   try {
     const dimsString = JSON.stringify(dimensions);
     const prompt = `
@@ -39,6 +33,6 @@ export const getTuqangAdvice = async (
     return response.text || "Maaf, Mandor sedang istirahat (tidak ada respon).";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Gagal menghubungi Mandor AI. Coba lagi nanti.";
+    return "Gagal menghubungi Mandor AI. Pastikan kuota API mencukupi atau coba lagi nanti.";
   }
 };
