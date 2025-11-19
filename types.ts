@@ -6,16 +6,8 @@ export enum ShapeType {
   TRAPESIUM_SIKU_SIKU = 'Trapesium Siku-Siku',
 }
 
-export interface Dimensions {
-  sisi?: number;
-  panjang?: number;
-  lebar?: number;
-  alas?: number;
-  tinggi?: number;
-  miring?: number;
-  sisiAtas?: number;
-  sisiBawah?: number;
-}
+// Changed to a Record to support dynamic keys like s1, s2, top, bottom, etc.
+export type Dimensions = Record<string, number>;
 
 export interface ValidationResult {
   isValid: boolean;
